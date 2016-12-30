@@ -61,7 +61,7 @@ class Dictionary {
     }
 
     fun getLetter(id: String): String = this.scheme[id] as String
-    fun getWord(id: String): String = this.words[id] as String
+    fun getWord(id: String): String = if (this.words[id] != null) this.words[id] as String else ""
 
     private fun setDefaultScheme(map: HashMap<String, Any>) {
         for (c in 'A'..'X') {
