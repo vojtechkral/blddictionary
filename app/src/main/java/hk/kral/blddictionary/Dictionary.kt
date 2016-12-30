@@ -14,7 +14,7 @@ class Dictionary {
     val dFile: File
 
     init {
-        val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+        val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         dFile = File(path, "dictionary.toml")
 
         if (dFile.createNewFile()) {
@@ -51,7 +51,12 @@ class Dictionary {
     }
 
     fun setWord(id: String, word: String) {
-        this.words[id] = word as Any
+        if (word.trim() == ""){
+            this.words.remove(id)
+        } else {
+            this.words[id] = word as Any
+            println(word.trim())
+        }
         this.writeback()
     }
 

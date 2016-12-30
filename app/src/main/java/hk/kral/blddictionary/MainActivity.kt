@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +19,9 @@ class MainActivity : AppCompatActivity() {
         val bSave: Button = findViewById(R.id.bSave) as Button
         val etWord: EditText = findViewById(R.id.etWord) as EditText
 
-        bSave.setOnClickListener({view -> dict.setWord(pair, etWord.text.toString())})
+        bSave.setOnClickListener ({view ->
+            dict.setWord(pair, etWord.text.toString())
+            Toast.makeText(applicationContext, getString(R.string.toast_saved), Toast.LENGTH_SHORT).show()
+        })
     }
 }
