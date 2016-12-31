@@ -69,10 +69,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/guideline5"
         android:orientation="horizontal"
-        tools:layout_editor_absoluteY="488dp"
+        tools:layout_editor_absoluteY="238dp"
         tools:layout_editor_absoluteX="0dp"
-        app:layout_constraintGuide_percent="0.8092869"
-        android:layout_width="411dp" />
+        app:layout_constraintGuide_percent="0.7020649"
+        android:layout_width="683dp" />
 
     <hk.kral.blddictionary.CubeGroup
         android:id="@+id/cubegroup"
