@@ -1,20 +1,20 @@
 package hk.kral.blddictionary
 
-import java.util.*
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.view.LayoutInflater
-import android.graphics.Color
-import android.view.View
+import java.util.*
 
 
-class CubeGroup(context: Context, attrs: AttributeSet?, defStyleAttr: Int): ViewGroup(context, attrs, defStyleAttr) {
+class CubeGroup(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : ViewGroup(context, attrs, defStyleAttr) {
     var buttons = HashMap<Button, Pair<Int, Int>>()
 
-    constructor(context: Context, attrs: AttributeSet): this(context, attrs, 0)
-    constructor(context: Context): this(context, null, 0)
+    constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
+    constructor(context: Context) : this(context, null, 0)
 
     init {
         addFace('E', 0, 3, Color.rgb(255, 85, 0))

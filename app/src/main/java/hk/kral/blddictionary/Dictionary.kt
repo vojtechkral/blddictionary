@@ -6,7 +6,7 @@ import com.moandjiezana.toml.TomlWriter
 import java.io.File
 import java.util.*
 
-class Dictionary {
+object Dictionary {
 
     var scheme: HashMap<String, Any> = HashMap()
     var words: HashMap<String, Any> = HashMap()
@@ -18,21 +18,23 @@ class Dictionary {
         dFile = File(path, "dictionary.toml")
 
         if (dFile.createNewFile()) {
-            setDefaultScheme(scheme)
-            writeback()
-        } else {
-            val dictionary = Toml().read(dFile)
-            readFile(dictionary)
+            if (dFile.createNewFile()) {
+                setDefaultScheme(scheme)
+                writeback()
+            } else {
+                val dictionary = Toml().read(dFile)
+                readFile(dictionary)
+            }
         }
     }
 
     private fun readFile(dictionary: Toml) {
-        if (dictionary.getTable("scheme") != null){
+        if (dictionary.getTable("scheme") != null) {
             val schemeMap: Map<String, Any> = dictionary.getTable("scheme").toMap()
             this.scheme.putAll(schemeMap)
         }
 
-        if (dictionary.getTable("words") != null){
+        if (dictionary.getTable("words") != null) {
             val wordMap: Map<String, Any> = dictionary.getTable("words").toMap()
             this.words.putAll(wordMap)
         }
@@ -51,7 +53,7 @@ class Dictionary {
     }
 
     fun setWord(id: String, word: String) {
-        if (word.trim() == ""){
+        if (word.trim() == "") {
             this.words.remove(id)
         } else {
             this.words[id] = word as Any
