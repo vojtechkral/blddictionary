@@ -1,30 +1,29 @@
 package hk.kral.blddictionary
 
-import android.os.Environment
+import android.content.Context
 import com.moandjiezana.toml.Toml
 import com.moandjiezana.toml.TomlWriter
 import java.io.File
 import java.util.*
 
-object Dictionary {
+class Dictionary(ctx: Context) {
 
-    var scheme: HashMap<String, Any> = HashMap()
-    var words: HashMap<String, Any> = HashMap()
-    val tomlWriter: TomlWriter = TomlWriter()
-    val dFile: File
+    private var scheme: HashMap<String, Any> = HashMap()
+    private var words: HashMap<String, Any> = HashMap()
+    private val tomlWriter: TomlWriter = TomlWriter()
+    private val dFile: File
 
     init {
-        val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val path = ctx.getExternalFilesDir(null)
         dFile = File(path, "dictionary.toml")
 
         if (dFile.createNewFile()) {
-            if (dFile.createNewFile()) {
-                setDefaultScheme(scheme)
-                writeback()
-            } else {
-                val dictionary = Toml().read(dFile)
-                readFile(dictionary)
-            }
+            fillSchemeDefaults(scheme)
+            writeback()
+        } else {
+            val dictionary = Toml().read(dFile)
+            readFile(dictionary)
+            fillSchemeDefaults(scheme)
         }
     }
 
@@ -57,7 +56,6 @@ object Dictionary {
             this.words.remove(id)
         } else {
             this.words[id] = word as Any
-            println(word.trim())
         }
         this.writeback()
     }
@@ -65,9 +63,10 @@ object Dictionary {
     fun getLetter(id: String): String = this.scheme[id] as String
     fun getWord(id: String): String = if (this.words[id] != null) this.words[id] as String else ""
 
-    private fun setDefaultScheme(map: HashMap<String, Any>) {
+    private fun fillSchemeDefaults(map: HashMap<String, Any>) {
         for (c in 'A'..'X') {
-            map.put(c.toString(), c.toString())
+            val cStr = c.toString()
+            if (!map.containsKey(cStr)) map.put(cStr, c.toString())
         }
     }
 }

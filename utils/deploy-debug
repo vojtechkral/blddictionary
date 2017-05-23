@@ -1,0 +1,16 @@
+#!/bin/zsh
+
+PKG='hk.kral.blddictionary'
+APK='app/build/outputs/apk/app-debug.apk'
+ACTIVITY="${PKG}/.MainActivity"
+UTILS_DIR=$(dirname $0:A)
+
+set -e
+
+cd "${UTILS_DIR}/.."
+gradle assembleDebug
+adb install -r "$APK"
+adb shell am start -n "$ACTIVITY"
+PID=$(adb shell ps | grep "$PKG" | awk '{print $2}')
+echo "PID: $PID"
+adb logcat | grep " ${PID} "
