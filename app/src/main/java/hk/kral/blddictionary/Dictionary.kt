@@ -1,5 +1,6 @@
 package hk.kral.blddictionary
 
+import android.util.Log
 import android.content.Context
 import com.moandjiezana.toml.Toml
 import com.moandjiezana.toml.TomlWriter
@@ -7,6 +8,10 @@ import java.io.File
 import java.util.*
 
 class Dictionary(ctx: Context) {
+    companion object {
+        private val TAG = "Dictionary"
+        private val DICTONARY_FILE = "dictionary.toml"
+    }
 
     private var scheme: HashMap<String, Any> = HashMap()
     private var words: HashMap<String, Any> = HashMap()
@@ -15,12 +20,13 @@ class Dictionary(ctx: Context) {
 
     init {
         val path = ctx.getExternalFilesDir(null)
-        dFile = File(path, "dictionary.toml")
+        dFile = File(path, DICTONARY_FILE)
 
         if (dFile.createNewFile()) {
             fillSchemeDefaults(scheme)
             writeback()
         } else {
+            // FIXME: Handle TOML errors
             val dictionary = Toml().read(dFile)
             readFile(dictionary)
             fillSchemeDefaults(scheme)
@@ -52,10 +58,11 @@ class Dictionary(ctx: Context) {
     }
 
     fun setWord(id: String, word: String) {
-        if (word.trim() == "") {
+        val w = word.trim()
+        if (w.equals("")) {
             this.words.remove(id)
         } else {
-            this.words[id] = word as Any
+            this.words[id] = w as Any
         }
         this.writeback()
     }

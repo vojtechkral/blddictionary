@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         private val TAG = "MainActivity"
     }
 
+    var pairID: String = ""
     var pair: String = ""
 
     lateinit private var dict: Dictionary
@@ -25,15 +26,20 @@ class MainActivity : AppCompatActivity() {
     lateinit private var cubegroup: CubeGroup
 
     private fun onLetterClick(dt: BtnLetter) {
-        when(pair.length) {
+        val letter = dict.getLetter(dt.letter.toString())
+        when(pairID.length) {
             1 -> {
                 if (pair[0] == dt.letter) return
-                pair += dt.letter
-                val word = dict.getWord(pair)
+                pairID += dt.letter
+                pair += letter
+                val word = dict.getWord(pairID)
                 etWord.setText(word)
                 etWord.setSelection(word.length)
             }
-            else -> pair = dt.letter.toString()
+            else -> {
+                pairID = dt.letter.toString()
+                pair = letter
+            }
         }
         tvPair.text = pair
     }
@@ -91,7 +97,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         bSave.setOnClickListener({
-            dict.setWord(pair, etWord.text.toString())
+            dict.setWord(pairID, etWord.text.toString())
             Toast.makeText(applicationContext, getString(R.string.toast_saved), Toast.LENGTH_SHORT).show()
         })
     }

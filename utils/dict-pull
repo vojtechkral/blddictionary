@@ -1,0 +1,5 @@
+#!/bin/sh
+
+DICT='/sdcard/Android/data/hk.kral.blddictionary/files/dictionary.toml'
+
+adb pull "$DICT"
