@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 
 
+// FIXME: letter -> String
 sealed class Btn(val letter: Char, val x: Int, val y: Int)
 class BtnLetter(letter: Char, x: Int, y: Int): Btn(letter, x, y)
 class BtnFace(val color: Int, letter: Char, x: Int, y: Int): Btn(letter, x, y)
@@ -25,6 +26,7 @@ class CubeGroup(ctx: Context, attrs: AttributeSet?, defStyleAttr: Int): ViewGrou
     private var buttons = ArrayList<Button>()
     lateinit private var dict: Dictionary
     private var onClickCB: CubeGroupCB? = null
+    private var onLongClickCB: CubeGroupCB? = null
 
     constructor(ctx: Context, attrs: AttributeSet) : this(ctx, attrs, 0)
     constructor(ctx: Context) : this(ctx, null, 0)
@@ -56,6 +58,10 @@ class CubeGroup(ctx: Context, attrs: AttributeSet?, defStyleAttr: Int): ViewGrou
         btn.setOnClickListener {
             onClickCB?.invoke(btn.getTag() as Btn)
         }
+        btn.setOnLongClickListener {
+            onLongClickCB?.invoke(btn.getTag() as Btn)
+            true
+        }
 
         this.addView(btn)
         buttons.add(btn)
@@ -84,9 +90,8 @@ class CubeGroup(ctx: Context, attrs: AttributeSet?, defStyleAttr: Int): ViewGrou
         }
     }
 
-    fun onClick(cb: CubeGroupCB) {
-        onClickCB = cb
-    }
+    fun onClick(cb: CubeGroupCB) { onClickCB = cb }
+    fun onLongClick(cb: CubeGroupCB) { onLongClickCB = cb }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         for (btn in buttons) {

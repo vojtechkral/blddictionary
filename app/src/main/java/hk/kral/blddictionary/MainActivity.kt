@@ -7,6 +7,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import android.text.InputType
+import android.text.InputFilter
+import android.app.AlertDialog
+import android.content.DialogInterface
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -34,6 +38,30 @@ class MainActivity : AppCompatActivity() {
         tvPair.text = pair
     }
 
+    private fun onLetterLongClick(dt: BtnLetter) {
+        val dialog = AlertDialog.Builder(this)
+        dialog.setTitle(getString(R.string.scheme_edit_title))
+
+        val input = EditText(this)
+        input.setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS)
+        input.setText(dict.getLetter(dt.letter.toString()))
+        input.setSelection(0, 1)
+        input.setFilters(arrayOf(
+            InputFilter.AllCaps(),
+            InputFilter.LengthFilter(1)
+        ));
+        dialog.setView(input)
+
+        dialog.setPositiveButton(android.R.string.ok, { _, _ ->
+                val newletter = input.getText().toString()
+                dict.setLetter(dt.letter.toString(), newletter)
+                cubegroup.setDictionary(dict)
+        })
+
+        dialog.setNegativeButton("Cancel", { dialog, _ -> dialog.cancel() })
+        dialog.show()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -50,13 +78,17 @@ class MainActivity : AppCompatActivity() {
         cubegroup = findViewById(R.id.cubegroup) as CubeGroup
         cubegroup.setDictionary(dict)
         cubegroup.onClick({ dt ->
-            Log.d(TAG, "onClick! " + dt.letter)
             when (dt) {
                 is BtnLetter -> onLetterClick(dt)
+                else -> {}
+            }
+        })
+        cubegroup.onLongClick({ dt ->
+            when (dt) {
+                is BtnLetter -> onLetterLongClick(dt)
                 else -> {} // TODO: BtnFace
             }
         })
-        // TODO: Long clicks
 
         bSave.setOnClickListener({
             dict.setWord(pair, etWord.text.toString())

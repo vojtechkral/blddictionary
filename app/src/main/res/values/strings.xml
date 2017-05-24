@@ -2,4 +2,5 @@
     <string name="app_name">BLD dictionary</string>
 
     <string name="toast_saved" translatable="true">Word saved</string>
+    <string name="scheme_edit_title" translatable="true">Edit scheme letter</string>
 </resources>

@@ -13,4 +13,4 @@ adb install -r "$APK"
 adb shell am start -n "$ACTIVITY"
 PID=$(adb shell ps | grep "$PKG" | awk '{print $2}')
 echo "PID: $PID"
-adb logcat | grep " ${PID} "
+adb logcat | grep " ${PID} " || exit 0
