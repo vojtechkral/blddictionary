@@ -10,7 +10,10 @@ import android.widget.Toast
 import android.text.InputType
 import android.text.InputFilter
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
+import android.view.inputmethod.InputMethodManager
+
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -72,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        dict = Dictionary(getApplicationContext())
+        dict = Dictionary(applicationContext)
 
         val bSave: Button = findViewById(R.id.bSave) as Button
 
@@ -99,6 +102,8 @@ class MainActivity : AppCompatActivity() {
         bSave.setOnClickListener({
             dict.setWord(pairID, etWord.text.toString())
             Toast.makeText(applicationContext, getString(R.string.toast_saved), Toast.LENGTH_SHORT).show()
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0)
         })
     }
 }
