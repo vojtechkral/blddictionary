@@ -1,5 +1,6 @@
 #!/bin/zsh
 
+
 PKG='hk.kral.blddictionary'
 APK='app/build/outputs/apk/app-debug.apk'
 ACTIVITY="${PKG}/.MainActivity"

@@ -1,0 +1,11 @@
+#!/bin/zsh
+
+
+ICON_DIR=$(dirname $0:A)
+DPIS=(hdpi mdpi xhdpi xxhdpi xxxhdpi)
+
+cd "$ICON_DIR"
+for dpi in $DPIS
+do
+	inkscape -z -Ce "../app/src/main/res/mipmap-${dpi}/ic_launcher.png" icon.svg
+done
